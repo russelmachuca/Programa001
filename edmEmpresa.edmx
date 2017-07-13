@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DemoR2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAsesor">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblEmpresa">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RUC" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="RazonSocial" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Tipo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CodigoRubro" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="DNIAsesor" Type="char" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRubro">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblEmpres__Codig__145C0A3F">
+          <End Role="tblRubro" Type="Self.tblRubro" Multiplicity="1" />
+          <End Role="tblEmpresa" Type="Self.tblEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRubro">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="tblEmpresa">
+              <PropertyRef Name="CodigoRubro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblEmpres__DNIAs__15502E78">
+          <End Role="tblAsesor" Type="Self.tblAsesor" Multiplicity="1" />
+          <End Role="tblEmpresa" Type="Self.tblEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAsesor">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="tblEmpresa">
+              <PropertyRef Name="DNIAsesor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoR2ModelStoreContainer">
+          <EntitySet Name="tblAsesor" EntityType="Self.tblAsesor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblEmpresa" EntityType="Self.tblEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRubro" EntityType="Self.tblRubro" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblEmpres__Codig__145C0A3F" Association="Self.FK__tblEmpres__Codig__145C0A3F">
+            <End Role="tblRubro" EntitySet="tblRubro" />
+            <End Role="tblEmpresa" EntitySet="tblEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblEmpres__DNIAs__15502E78" Association="Self.FK__tblEmpres__DNIAs__15502E78">
+            <End Role="tblAsesor" EntitySet="tblAsesor" />
+            <End Role="tblEmpresa" EntitySet="tblEmpresa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemoR2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAsesor">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblEmpresa" Relationship="Self.FK__tblEmpres__DNIAs__15502E78" FromRole="tblAsesor" ToRole="tblEmpresa" />
+        </EntityType>
+        <EntityType Name="tblEmpresa">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RUC" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="RazonSocial" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CodigoRubro" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DNIAsesor" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblAsesor" Relationship="Self.FK__tblEmpres__DNIAs__15502E78" FromRole="tblEmpresa" ToRole="tblAsesor" />
+          <NavigationProperty Name="tblRubro" Relationship="Self.FK__tblEmpres__Codig__145C0A3F" FromRole="tblEmpresa" ToRole="tblRubro" />
+        </EntityType>
+        <EntityType Name="tblRubro">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblEmpresa" Relationship="Self.FK__tblEmpres__Codig__145C0A3F" FromRole="tblRubro" ToRole="tblEmpresa" />
+        </EntityType>
+        <Association Name="FK__tblEmpres__DNIAs__15502E78">
+          <End Role="tblAsesor" Type="Self.tblAsesor" Multiplicity="1" />
+          <End Role="tblEmpresa" Type="Self.tblEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAsesor">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="tblEmpresa">
+              <PropertyRef Name="DNIAsesor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblEmpres__Codig__145C0A3F">
+          <End Role="tblRubro" Type="Self.tblRubro" Multiplicity="1" />
+          <End Role="tblEmpresa" Type="Self.tblEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRubro">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="tblEmpresa">
+              <PropertyRef Name="CodigoRubro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoR2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAsesor" EntityType="Self.tblAsesor" />
+          <EntitySet Name="tblEmpresa" EntityType="Self.tblEmpresa" />
+          <EntitySet Name="tblRubro" EntityType="Self.tblRubro" />
+          <AssociationSet Name="FK__tblEmpres__DNIAs__15502E78" Association="Self.FK__tblEmpres__DNIAs__15502E78">
+            <End Role="tblAsesor" EntitySet="tblAsesor" />
+            <End Role="tblEmpresa" EntitySet="tblEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblEmpres__Codig__145C0A3F" Association="Self.FK__tblEmpres__Codig__145C0A3F">
+            <End Role="tblRubro" EntitySet="tblRubro" />
+            <End Role="tblEmpresa" EntitySet="tblEmpresa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemoR2ModelStoreContainer" CdmEntityContainer="DemoR2Entities">
+          <EntitySetMapping Name="tblAsesor">
+            <EntityTypeMapping TypeName="DemoR2Model.tblAsesor">
+              <MappingFragment StoreEntitySet="tblAsesor">
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblEmpresa">
+            <EntityTypeMapping TypeName="DemoR2Model.tblEmpresa">
+              <MappingFragment StoreEntitySet="tblEmpresa">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="CodigoRubro" ColumnName="CodigoRubro" />
+                <ScalarProperty Name="DNIAsesor" ColumnName="DNIAsesor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRubro">
+            <EntityTypeMapping TypeName="DemoR2Model.tblRubro">
+              <MappingFragment StoreEntitySet="tblRubro">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
